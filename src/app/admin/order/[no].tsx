@@ -5,7 +5,7 @@ import { Alert, Pressable, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 
 import { AdminScreen } from '@/components/admin';
-import { Card, Photo, StatusPill, SummaryRow } from '@/components/blocks';
+import { Card, DashedDivider, Photo, StatusPill, SummaryRow } from '@/components/blocks';
 import { Button } from '@/components/button';
 import { BottomBar } from '@/components/chrome';
 import { Icon, type IconName } from '@/components/icon';
@@ -232,7 +232,8 @@ export default function AdminOrderDetail() {
           <View style={{ gap: 8, paddingTop: 12, paddingHorizontal: 14, paddingBottom: 14, borderTopWidth: 1, borderTopColor: c.line }}>
             <SummaryRow label="Subtotal" value={money(sub)} size={13} />
             <SummaryRow label="Shipping" value={ship} size={13} />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: 6, borderTopWidth: 1, borderStyle: 'dashed', borderTopColor: c.lineStrong }}>
+            <DashedDivider />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
               <Text style={[font.body(600, 14), { color: c.text1 }]}>Total paid</Text>
               <Text style={[font.num(800, 26), { color: c.text1 }]}>{money(orderTotal(o, byId, freeAt, rates))}</Text>
             </View>

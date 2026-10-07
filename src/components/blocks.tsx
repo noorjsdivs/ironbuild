@@ -334,3 +334,18 @@ export function SummaryRow({ label, value, size = 14 }: { label: string; value: 
     </View>
   );
 }
+
+/**
+ * Dashed hairline. Native dashed borders only render when all four sides
+ * match, so a one-sided dashed rule is drawn as a row of short segments.
+ */
+export function DashedDivider({ color, dash = 5, gap = 4 }: { color?: string; dash?: number; gap?: number }) {
+  const { c } = useTheme();
+  return (
+    <View accessible={false} style={{ height: 1, flexDirection: 'row', overflow: 'hidden', gap }}>
+      {Array.from({ length: 80 }, (_, i) => (
+        <View key={i} style={{ width: dash, height: 1, backgroundColor: color ?? c.lineStrong }} />
+      ))}
+    </View>
+  );
+}
