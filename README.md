@@ -10,6 +10,11 @@
 </p>
 
 <p align="center">
+  Designed in <b>Claude Design</b> by talking, built by <b>Claude Code</b> from one prompt, and open-sourced so you can follow along.<br/>
+  By <a href="https://github.com/noorjsdivs"><b>Noor Mohammad</b></a> · <b>React BD</b>
+</p>
+
+<p align="center">
   <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo-SDK%2057-000020?logo=expo&logoColor=white" />
   <img alt="React Native 0.86" src="https://img.shields.io/badge/React%20Native-0.86-61DAFB?logo=react&logoColor=black" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" />
@@ -23,6 +28,7 @@
 ## Contents
 
 - [What is IRONBUILD?](#what-is-ironbuild)
+- [How it was built (follow along)](#how-it-was-built-follow-along)
 - [Screenshots](#screenshots)
 - [Features](#features)
 - [Tech stack](#tech-stack)
@@ -36,6 +42,8 @@
 - [Deep links](#deep-links)
 - [Building for the stores](#building-for-the-stores)
 - [Troubleshooting](#troubleshooting)
+- [Working with AI coding agents](#working-with-ai-coding-agents)
+- [About the author](#about-the-author)
 - [Credits & license](#credits--license)
 
 ---
@@ -50,6 +58,75 @@ It covers the full journey:
 - **Store owners** switch to a built-in **admin console** for orders, products, inventory, categories, customers, discounts, shipping, reports and settings.
 
 Everything runs locally with realistic seed data, so you can clone it and use it straight away. All network calls go through one service file ([`src/services/api.ts`](src/services/api.ts)); that is where you plug in a real backend.
+
+---
+
+## How it was built (follow along)
+
+This repo is the companion to a build video on the **React BD** channel. The whole app went from an idea to a running iPhone app in two halves, and everything you need to repeat it is in this repo.
+
+### 1. The design: Claude Design
+
+The app was designed in [Claude Design](https://claude.ai/design) by describing it, not drawing it.
+
+- **Version 1:** 10 clickable screens with real motion (the logo builds letter by letter, cards grow into product pages, items fly into the cart), dark and light themes, and three accents: Volt, Ember and Ice.
+- **Version 2:** real product photography, frosted glass on the tab bar, headers and sheets, a screen index of **29 screens** in three groups, a full sign-in flow, and an admin console.
+
+The exported handoff bundle is included as **[`IRONBUILD Gym App Prototype-handoff.zip`](IRONBUILD%20Gym%20App%20Prototype-handoff.zip)**. It contains both prototypes (`IRONBUILD App v1.dc.html`, `IRONBUILD App v2.dc.html`), the images, and a README written for coding agents.
+
+To open the prototypes yourself, unzip the bundle and serve the `project/` folder (the prototypes load scripts, so `file://` won't work):
+
+```bash
+cd "ironbuild-gym-app-prototype/project"
+python3 -m http.server 8090
+# then open http://localhost:8090/IRONBUILD%20App%20v2.dc.html
+```
+
+<details>
+<summary><b>The Claude Design prompts, word for word</b></summary>
+
+First prompt (typos kept; the link was a Facebook video of a gym store):
+
+> Design a mobile app for a gym tools selling website similar as [video link] this video showing and also should have proper animation and motion and proper standard theming structre
+
+Answers to Claude Design's questions: dark look with real motion · brand IRONBUILD · 10 screens · 8 product categories · light + dark toggle · cards that grow into pages, fly-to-cart, staggered lists · one polished prototype.
+
+Second prompt (the referenced design was another private Claude Design project, "Mega Store"):
+
+> use appropriate images from your collection or create it and then use proper glass effect and all the screens list should be provided in the left so I can clicked and move to it and make sure to have proper login, registration, forgot email screen as well as well as full admin setup and check [Mega Store design] this design and should have all of those screens
+
+</details>
+
+### 2. The build: Claude Code
+
+The zip was handed to [Claude Code](https://claude.com/claude-code) with one prompt:
+
+> @IRONBUILD Gym App Prototype-handoff.zip go with this file and then create the mobile application based on the design and make sure to use all the latest packages and standard best practices while building it
+
+What happened next:
+
+1. It read the bundle's README and the whole v2 design file (about 1,800 lines) before writing any code.
+2. It checked the latest Expo version (SDK 57) and read the official docs for that version instead of relying on memory.
+3. The first build took about **40 minutes**: 89 files from a single agent, written before anything had been compiled or run, because package installs were blocked during the session.
+4. On the first compile there were **0 TypeScript errors**, lint was clean, and `expo-doctor` passed **21/21** checks.
+5. On iOS 27 the app crashed at launch (`UIScene life cycle is required`). The fix is the config plugin in [`plugins/with-scene-lifecycle.js`](plugins/with-scene-lifecycle.js).
+6. Two short follow-up prompts added the Home extras (training journal, deal of the day, reviews) and the richer product page.
+
+<details>
+<summary><b>The follow-up prompts</b></summary>
+
+> add some more items in home screen to make it looks nicer like proper blog system and others
+
+> Keep more details and design it better in single product screen
+
+</details>
+
+### Build your own version
+
+1. Unzip the handoff bundle and look through the v2 prototype.
+2. Start a fresh project with `npx create-expo-app@latest`.
+3. Give your coding agent the bundle and the prompt above, or write your own and change the brand, the screens and the stack.
+4. Compare your result with this repo. The [How it works](#how-it-works) section explains the tricky parts: the headless glass tab bar, fly-to-cart, the two stores and the theme tokens.
 
 ---
 
@@ -432,10 +509,26 @@ This project needs a development build (`npx expo run:ios` / `run:android`) beca
 
 ---
 
+## Working with AI coding agents
+
+[`AGENTS.md`](AGENTS.md) holds the project rules for coding agents: use the versioned Expo docs instead of memory, keep routes in `src/app/`, never edit the generated `ios/` and `android/` folders by hand, and run lint and typecheck before calling a task done. Claude Code, Cursor and other agents that read `AGENTS.md` pick these up automatically.
+
+---
+
+## About the author
+
+**Noor Mohammad** builds real apps on **React BD**, keeping the messy parts in: every prompt, every bug and every crash.
+
+- GitHub: [@noorjsdivs](https://github.com/noorjsdivs)
+
+If this project helped you, ⭐ star the repo so more people find it. Issues and pull requests are welcome.
+
+---
+
 ## Credits & license
 
 - UI and interaction design: the **IRONBUILD App v2** prototype (Claude Design handoff).
 - Photography: [Unsplash](https://unsplash.com); images load from Unsplash's CDN.
 - Fonts: [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed), [DM Sans](https://fonts.google.com/specimen/DM+Sans), [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) and [Material Symbols](https://fonts.google.com/icons) (SIL OFL / Apache 2.0).
 
-Released under the MIT License. See [`LICENSE`](LICENSE).
+Released under the MIT License. See [`LICENSE`](LICENSE). You're free to use it for learning and in your own projects.
